@@ -2,17 +2,26 @@
   <div class="row">
     <h3 class="text-center mb-0">Weather Details</h3>
     <div class="col-3 border-end pt-4">
-      <h5>City List</h5>
+      <h5 tabindex="0">City List</h5>
       <div class="city-list" *ngIf="cityList.length">
         <div
           class="card mb-3 cursor-p"
           [ngClass]="item.active ? 'active' : ''"
           *ngFor="let item of cityList; let $index = index"
           (click)="getCityDetails(item)"
+          (keydown)="getCityDetails(item)"
+          aria-label="city name"
+          tabindex="0"
         >
           <div class="card-body">
             <label class="card-subtitle text-muted"> {{ item.key }}</label>
-            <span class="float-end cursor-p" (click)="removeCity($event, item)">
+            <span
+              class="float-end cursor-p"
+              tabindex="0"
+              (keydown)="removeCity($event, item)"
+              (click)="removeCity($event, item)"
+              aria-label="delete-icon"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -32,7 +41,14 @@
           </div>
         </div>
       </div>
-      <div class="city-list empty" *ngIf="!cityList.length">No city added!</div>
+      <div
+        class="city-list empty"
+        *ngIf="!cityList.length"
+        tabindex="0"
+        aria-label="no city added in list"
+      >
+        No city added!
+      </div>
     </div>
     <div class="col-9 pt-4">
       <div class="col-6 mb-3">
@@ -48,17 +64,21 @@
               formControlName="cityName"
             />
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="submit" [disabled]="!searchForm.valid">
+              <button
+                class="btn btn-outline-secondary"
+                type="submit"
+                [disabled]="!searchForm.valid"
+              >
                 Search
               </button>
             </div>
           </div>
-          <div class="error-message" *ngIf="errorMsg">{{errorMsg}}</div>
+          <div class="error-message" *ngIf="errorMsg">{{ errorMsg }}</div>
         </form>
       </div>
 
       <div class="col-12 current-weather" *ngIf="weatherDetails">
-        <div class="temp-block text-center">
+        <div class="temp-block text-center" tabindex="0">
           <div class="date">{{ weatherDetails.date }}</div>
           <div class="city">
             <b>{{ weatherDetails.name + ", " + weatherDetails.sys.country }}</b>
@@ -82,37 +102,39 @@
         </div>
 
         <div class="weather-details mt-3">
-          <label class="mb-2">
+          <label class="mb-2" tabindex="0">
             <span>{{ weatherDetails.wind.speed }} m/s E</span>
             <span title="wind speed" class="wind-speed float-end"></span>
           </label>
-          <label class="mb-2">
+          <label class="mb-2" tabindex="0">
             <span>{{ weatherDetails.main.pressure }} hPa</span>
             <span title="wind pressure" class="wind-pressure float-end"></span>
           </label>
-          <label class="mb-2">
+          <label class="mb-2" tabindex="0">
             <span>Humidity : </span>
             <span class="float-end">{{ weatherDetails.main.humidity }} %</span>
           </label>
-          <label>
+          <label tabindex="0">
             <span>UV : </span>
             <span class="float-end">4</span>
           </label>
-          <label>
+          <label tabindex="0">
             <span>Dew point : </span>
             <span class="float-end">9°C</span>
           </label>
-          <label>
+          <label tabindex="0">
             <span>Visibility : </span>
-            <span class="float-end"
-              >{{ Math.round(weatherDetails.visibility / 100) / 10 }} km</span
-            >
+            <span class="float-end">
+              {{ Math.round(weatherDetails.visibility / 100) / 10 + "km" }}
+            </span>
           </label>
         </div>
       </div>
 
       <div class="col-12 empty-block" *ngIf="!weatherDetails">
-        <h5>No results found!</h5>
+        <h5 tabindex="0" aria-label="no weather data displayed">
+          No results found!
+        </h5>
       </div>
     </div>
   </div>
