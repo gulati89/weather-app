@@ -1,0 +1,61 @@
+.weather-app {
+  .cursor-p {
+    cursor: pointer;
+  }
+  .city-list {
+    height: 505px;
+    overflow: scroll;
+    .card {
+      border: 2px solid transparent;
+      box-shadow: 0 0 3px #ccc;
+      &.active,
+      &:hover {
+        border: 2px solid slategrey;
+      }
+    }
+  }
+  h3 {
+    padding: 10px;
+    font-weight: 700;
+    box-shadow: 0 0 0 2px #ccc;
+  }
+  .temp-block {
+    background: aliceblue;
+    box-shadow: 0 0 5px #ccc;
+    padding: 15px;
+    .date {
+      color: coral;
+    }
+    .weather-type span {
+      margin-right: 12px;
+      text-shadow: 2px 2px 5px cadetblue;
+    }
+  }
+  .weather-details {
+    border-left: 2px solid firebrick;
+    label {
+      width: 30%;
+      background: #fff;
+      padding: 12px;
+      box-shadow: 0 0 4px #ccc;
+      color: firebrick;
+      margin-right: 3%;
+      span.wind-speed {
+        background: url("../../assets/images/speed-icon.png");
+        width: 30px;
+        height: 25px;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        display: inline-block;
+      }
+      span.wind-pressure {
+        background: url("../../assets/images/pressure-icon.png");
+        width: 25px;
+        height: 25px;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        display: inline-block;
+      }
+    }
+  }
+}
