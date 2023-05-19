@@ -16,7 +16,7 @@ export class WeatherService {
   constructor(private httpClient: HttpClient) {}
 
   //API call to get Weather data
-  getWeatherData(params?: any): Observable<any> {
+  getWeatherData(params?: string): Observable<WeatherType> {
     return this.httpClient
       .get<WeatherType>(this.rootURL + params + '&appid=' + this.apiKey)
       .pipe(retry(1), catchError(this.handleError));
@@ -32,7 +32,6 @@ export class WeatherService {
       errorMessage =
         'Error Code:' + error.status + '\nMessage:' + error.message;
     }
-    console.log(errorMessage);
     return throwError(() => {
       return errorMessage;
     })

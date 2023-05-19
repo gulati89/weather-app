@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, catchError, tap, throwError } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { WeatherService } from '../shared/services/weather.service';
 import { WeatherType } from '../shared/models/weather.model';
+import { LoggerService } from '../shared/services/logger.service';
 
 
 @Component({
@@ -11,8 +12,8 @@ import { WeatherType } from '../shared/models/weather.model';
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss'],
 })
-export class WeatherComponent implements OnInit {
-  cityInput!: any;
+export class WeatherComponent implements OnInit, OnDestroy {
+  cityInput!: string;
   weatherDetails: any;
   cityList: any;
   weatherType!: WeatherType;
@@ -22,7 +23,8 @@ export class WeatherComponent implements OnInit {
 
   unsubscribe: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private weatherService: WeatherService, private formBuilder: FormBuilder) { }
+  constructor(private weatherService: WeatherService, private formBuilder: FormBuilder, 
+    private loggerService: LoggerService) { }
 
   ngOnInit(): void {
     this.Math = Math;
@@ -47,10 +49,10 @@ export class WeatherComponent implements OnInit {
     const params = 'q=' + city + '&units=metric';
     this.weatherService
       .getWeatherData(params)
-      .pipe(tap((data) => console.log('tap data',data)),
+      .pipe(tap((data) => this.loggerService.info("Fetching weather info: ", data)),
       catchError((error) => {
         return throwError(() => {
-          console.log('Error found', error);
+          this.loggerService.error("Error: "+ error);
           this.errorMsg = 'Invalid city';
         })
       }),

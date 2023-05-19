@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements AfterContentChecked {
   title = 'weather-app';
 
   isLoading: Subject<boolean> = this.loaderService.isLoading;
