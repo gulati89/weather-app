@@ -9,7 +9,7 @@
           [ngClass]="item.active ? 'active' : ''"
           *ngFor="let item of cityList; let $index = index"
           (click)="getCityDetails(item)"
-          (keydown)="getCityDetails(item)"
+          (keydown.enter)="getCityDetails(item)"
           aria-label="city name"
           tabindex="0"
         >
@@ -18,7 +18,7 @@
             <span
               class="float-end cursor-p"
               tabindex="0"
-              (keydown)="removeCity($event, item)"
+              (keydown.enter)="removeCity($event, item)"
               (click)="removeCity($event, item)"
               aria-label="delete-icon"
             >
