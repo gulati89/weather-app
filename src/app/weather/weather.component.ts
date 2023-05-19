@@ -23,7 +23,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   unsubscribe: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private weatherService: WeatherService, private formBuilder: FormBuilder, 
+  constructor(public weatherService: WeatherService, private formBuilder: FormBuilder, 
     private loggerService: LoggerService) { }
 
   ngOnInit(): void {
