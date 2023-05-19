@@ -16,6 +16,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       initialNavigation: 'enabledBlocking',
       preloadingStrategy: PreloadAllModules,
+      useHash: true
     }),
   ],
   exports: [RouterModule],
