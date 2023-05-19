@@ -6,7 +6,7 @@ export const environment = {
     production: true,
     config:{
         apiKey: '4f9d750ae2779d90fc0a4df9dc03519e',
-        apiUrl:'https://pokeapi.co/api/v2/'
+        apiUrl:'https://api.openweathermap.org/data/2.5/weather?'
     }
 };
   

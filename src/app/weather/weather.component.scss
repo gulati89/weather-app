@@ -2,6 +2,10 @@
   .cursor-p {
     cursor: pointer;
   }
+  .error-message {
+    color: red;
+    font-size: 15px;
+  }
   .city-list {
     height: 505px;
     overflow: scroll;

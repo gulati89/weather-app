@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject, tap } from 'rxjs';
+import { Subject, catchError, tap, throwError } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { WeatherService } from '../shared/services/weather.service';
 import { WeatherType } from '../shared/models/weather.model';
@@ -15,16 +16,25 @@ export class WeatherComponent implements OnInit {
   weatherDetails: any;
   cityList: any;
   weatherType!: WeatherType;
+  errorMsg!: string;
+  searchForm!: FormGroup;
   Math: any;
 
   unsubscribe: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private weatherService: WeatherService) {
+  constructor(private weatherService: WeatherService, private formBuilder: FormBuilder) { }
+
+  ngOnInit(): void {
     this.Math = Math;
     this.cityList = this.weatherService.cityList;
+    this.buildForm();
   }
 
-  ngOnInit(): void {}
+  buildForm() {
+    this.searchForm = this.formBuilder.group({
+      cityName: ['', Validators.required]
+    })
+  }
 
   setCurrentDate() {
     const date = new Date();
@@ -32,17 +42,32 @@ export class WeatherComponent implements OnInit {
       date.toDateString() + ', ' + date.toLocaleTimeString();
   }
 
-  handleSearch(city: string) {
+  getWeatherDetails() {
+    const city = this.searchForm.get('cityName')?.value;
     const params = 'q=' + city + '&units=metric';
     this.weatherService
       .getWeatherData(params)
       .pipe(tap((data) => console.log('tap data',data)),
+      catchError((error) => {
+        return throwError(() => {
+          console.log('Error found', error);
+          this.errorMsg = 'Invalid city';
+        })
+      }),
       takeUntil(this.unsubscribe))
       .subscribe((response: WeatherType) => {
         this.weatherDetails = response;
         this.setCurrentDate();
         this.weatherService.addCityToList(city, this.weatherDetails);
       });
+  }
+
+  handleSearch() {
+    this.weatherDetails = null;
+    this.errorMsg = '';
+    if(this.searchForm.valid) {
+      this.getWeatherDetails();
+    } 
   }
 
   getCityDetails(cityObj: any) {

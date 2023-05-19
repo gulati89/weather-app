@@ -12,7 +12,7 @@
         >
           <div class="card-body">
             <label class="card-subtitle text-muted"> {{ item.key }}</label>
-            <span class="float-end cursor-p" (click)="removeCity($event, item);">
+            <span class="float-end cursor-p" (click)="removeCity($event, item)">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -35,9 +35,9 @@
       <div class="city-list empty" *ngIf="!cityList.length">No city added!</div>
     </div>
     <div class="col-9 pt-4">
-      <div class="col-6">
-        <form>
-          <div class="input-group mb-3">
+      <div class="col-6 mb-3">
+        <form [formGroup]="searchForm" (ngSubmit)="handleSearch()">
+          <div class="input-group">
             <input
               type="text"
               name="cityName"
@@ -45,18 +45,15 @@
               placeholder="Enter city"
               aria-label="Enter city input"
               aria-describedby="basic-addon2"
-              [(ngModel)]="cityInput"
+              formControlName="cityName"
             />
             <div class="input-group-append">
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                (click)="handleSearch(cityInput)"
-              >
+              <button class="btn btn-outline-secondary" type="submit" [disabled]="!searchForm.valid">
                 Search
               </button>
             </div>
           </div>
+          <div class="error-message" *ngIf="errorMsg">{{errorMsg}}</div>
         </form>
       </div>
 
